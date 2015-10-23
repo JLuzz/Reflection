@@ -1,4 +1,16 @@
+/*
+Inspector.java
+Created by: Jeremy Luzzi
+for assignment 2 cpsc 501
+
+solutions for findFields and findFieldClasses influenced by
+the inspectField, and inspectFieldsClasses in ObjectInspector.java
+created by Jordan Kidney from the University of Calgary
+*/
+
+
 import java.lang.reflect.*;
+import java.util.*;
 
 public class Inspector{
 
@@ -7,7 +19,7 @@ public class Inspector{
   }
 
   public void inspect(Object object, boolean recursive){
-
+    Vector fieldsToInspect = new Vector();
     Class objClass = object.getClass();
 
     //find the declaring class
@@ -26,7 +38,13 @@ public class Inspector{
     findContructors(objClass);
 
     //find the fields for the class object
-    findFields(object, objClass);
+    System.out.println("***Fields***");
+    findFields(object, objClass, fieldsToInspect);
+
+    //finds information on the fields of an object recursivley
+    if(recursive){
+      findFieldClasses(object, objClass, fieldsToInspect, recursive);
+    }
   }
 
   //return the Class name as a string
@@ -119,25 +137,51 @@ public class Inspector{
     System.out.println("\tModifier: " + Modifier.toString(modCode));
   }
 
-  public void findFields(Object obj, Class objClass){
-    Field[] fields = objClass.getDeclaredFields();
-    System.out.println("***Fields***");
+/*
 
-    for (Field fld : fields){
-      Object value = null;
+*/
+  public void findFields(Object obj, Class objClass, Vector fieldsToInspect){
 
-      if(!fld.isAccessible())
-        fld.setAccessible(true);
+    if(objClass.getDeclaredFields().length >= 1){
+    	Field fld = objClass.getDeclaredFields()[0];
 
-      try{
-        value = fld.get(obj);
-      }catch(Exception e){}
-        
-      System.out.println("Field: " + fld.getName()
+    	fld.setAccessible(true);
+
+    	if(!fld.getType().isPrimitive())
+    		    fieldsToInspect.addElement(fld);
+
+    	try{
+    		System.out.println("Field: " + fld.getName()
         + "\n\t Type: " + fld.getType()
         + "\n\t Modifiers: " + Modifier.toString(fld.getModifiers())
-        + "\n\t Value: " + value);
+        + "\n\t Value: " + fld.get(obj));
+    	}catch(Exception e) {}
     }
+
+    if(objClass.getSuperclass() != null)
+    	findFields(obj, objClass.getSuperclass() , fieldsToInspect);
+
   }
 
+  public void findFieldClasses(Object obj, Class objClass, Vector fieldsToInspect, boolean recursive){
+
+    if(fieldsToInspect.size() > 0 )
+  	    System.out.println("***Field Classes(Recursive Inspection)***");
+
+  	Enumeration e = fieldsToInspect.elements();
+  	while(e.hasMoreElements())
+  	    {
+  		Field fld = (Field) e.nextElement();
+  		System.out.println("Field: " + fld.getName() );
+
+  		try
+  		    {
+  			System.out.println("******************");
+  			inspect( fld.get(obj) , recursive);
+  			System.out.println("******************");
+  		    }
+  		catch(Exception exp) { exp.printStackTrace();
+      System.out.println("tacos");}
+  	    }
+      }
 }
