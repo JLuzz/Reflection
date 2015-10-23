@@ -74,8 +74,7 @@ public class TestInspector{
     gadget.findInterfaces(new ClassD().getClass());
     assertEquals("", outContent.toString());
     outContent.reset();
-
-
+    
   }
 
 }

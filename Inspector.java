@@ -77,14 +77,24 @@ public class Inspector{
     Method[] methods = objClass.getDeclaredMethods();
     for (Method meth : methods){
       System.out.println("Method: " + meth.getName());
-      findMethodExceptions(meth);
-      findMethodParameters(meth);
+      findExceptions(meth);
+      findParameters(meth);
       findReturnType(meth);
-      findMethodModifiers(meth);
+      findModifiers(meth);
     }
   }
 
-  public void findMethodExceptions(Method meth){
+  public void findContructors(Class objClass){
+    Constructor[] constructors = objClass.getDeclaredConstructors();
+    for (Constructor construct : constructors){
+      System.out.println("Constructor: " + construct.getName());
+      findParameters(construct);
+      findModifiers(construct);
+    }
+  }
+
+//Methods for finding info about an objects methods
+  public void findExceptions(Method meth){
     Class[] exceptions = meth.getExceptionTypes();
     System.out.println("\t***Exceptions***");
     for (Class excep : exceptions){
@@ -92,7 +102,7 @@ public class Inspector{
     }
   }
 
-  public void findMethodParameters(Method meth){
+  public void findParameters(Method meth){
     Class[] params = meth.getParameterTypes();
     System.out.println("\t***Parameters***");
     for (Class param : params){
@@ -105,22 +115,14 @@ public class Inspector{
     System.out.println("\t***Return Type***\n\tReturn: " + returnType.getName());
   }
 
-  public void findMethodModifiers(Method meth){
+  public void findModifiers(Method meth){
       int modCode = meth.getModifiers();
-      System.out.println("\t***Modifier***");
+      System.out.println("\t***Modifiers***");
       System.out.println("\tModifier: " + Modifier.toString(modCode));
   }
 
-  public void findContructors(Class objClass){
-    Constructor[] constructors = objClass.getDeclaredConstructors();
-    for (Constructor construct : constructors){
-      System.out.println("Constructor: " + construct.getName());
-      findConstructorParameters(construct);
-      findConstructorModifiers(construct);
-    }
-  }
-
-  public void findConstructorParameters(Constructor construct){
+  //Methods for finding info on about an objects constructors
+  public void findParameters(Constructor construct){
     Class[] params = construct.getParameterTypes();
     System.out.println("\t***Parameters***");
     for (Class param : params){
@@ -128,15 +130,13 @@ public class Inspector{
     }
   }
 
-  public void findConstructorModifiers(Constructor construct){
+  public void findModifiers(Constructor construct){
     int modCode = construct.getModifiers();
     System.out.println("\t***Modifiers***");
     System.out.println("\tModifier: " + Modifier.toString(modCode));
   }
 
-/*
-
-*/
+  //Methods for finding out an objects fields recursivley
   public void findFields(Object obj, Class objClass, Vector fieldsToInspect){
 
     if(objClass.getDeclaredFields().length >= 1){
