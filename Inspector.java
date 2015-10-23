@@ -22,6 +22,11 @@ public class Inspector{
     //find methods implemented by this class object
     findMethods(objClass);
 
+    //find constructors for the class object
+    findContructors(objClass);
+
+    //find the fields for the class object
+    findFields(objClass);
   }
 
   //return the Class name as a string
@@ -89,6 +94,39 @@ public class Inspector{
       int modCode = meth.getModifiers();
       System.out.println("\t\tModifier:");
       System.out.println("\t\t\t" + Modifier.toString(modCode));
+  }
+
+  public void findContructors(Class objClass){
+    Constructor[] constructors = objClass.getDeclaredConstructors();
+    System.out.println("Constructors:");
+    for (Constructor construct : constructors){
+      System.out.println("\t" + construct.getName());
+      findConstructorParameters(construct);
+      findConstructorModifiers(construct);
+    }
+  }
+
+  public void findConstructorParameters(Constructor construct){
+    Class[] params = construct.getParameterTypes();
+    System.out.println("\t\tParameters:");
+    for (Class param : params){
+      System.out.println("\t\t\t" + param.getName());
+    }
+  }
+
+  public void findConstructorModifiers(Constructor construct){
+    int modCode = construct.getModifiers();
+    System.out.println("\t\tModifiers:");
+    System.out.println("\t\t\t" + Modifier.toString(modCode));
+  }
+
+  public void findFields(Class objClass){
+    Field[] fields = objClass.getDeclaredFields();
+    System.out.println("***Fields***");
+    for (Field fld : fields){
+      System.out.println("Field: " + fld.getName() + "\n\t Type: " + fld.getType()
+        + "\n\t Modifiers: " + Modifier.toString(fld.getModifiers()));
+    }
   }
 
 }
