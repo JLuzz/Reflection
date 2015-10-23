@@ -52,21 +52,22 @@ public class Inspector{
     }
   }
 
-  //return the Class name as a string
   public void findClassName(Class objClass){
     //print the declaring class name
     System.out.println(objClass.getName());
   }
 
-  //
   public void findImmidiateSuperClass(Class objClass){
+    //find superclass
     Class objSuperclass = objClass.getSuperclass();
+    //print superclass
     System.out.println(objSuperclass.getName());
   }
 
   public void findInterfaces(Class objClass){
-
+    //find interfaces
     Class[] interfaces = objClass.getInterfaces();
+    //print interfaces
     for (Class interf : interfaces){
       System.out.println("Interface: " + interf.getName());
     }

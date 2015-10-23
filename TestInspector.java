@@ -25,22 +25,57 @@ public class TestInspector{
     //objects
     Object mung = new Object();
     gadget.findClassName(mung.getClass());
-    assertEquals("Declaring Class: " + Object.class.getName() + "\n", outContent.toString());
+    assertEquals(Object.class.getName() + "\n", outContent.toString());
+    outContent.reset();
 
     //string
-    //assertEquals(String.class.getName(), gadget.findClassName("hey QT how you doin?".getClass()));
+    gadget.findClassName("hey QT 3.14".getClass());
+    assertEquals(String.class.getName() + "\n", outContent.toString());
+    outContent.reset();
 
     //int
-    //Integer testNumber = new Integer(3);
-    //assertEquals(Integer.class.getName(), gadget.findClassName(testNumber.getClass()));
+    Integer meeseeks = new Integer(3);
+    gadget.findClassName(meeseeks.getClass());
+    assertEquals(Integer.class.getName() + "\n", outContent.toString());
+    outContent.reset();
 
+    //Array
+    /*
+    int[] tonyYayo = new int[3];
+    gadget.findClassName(tonyYayo.getClass());
+    assertEquals(Array.class.getName(), outContent.toString());
+    outContent.reset();
+    */
   }
 
   @Test
   public void testFindImmediateSuperclass(){
     //object
     //Object mung = new Object();
-    //assertEquals("Primitive Type, Object, or interface", gadget.findImmidiateSuperClass(mung.getClass()));
+    //gadget.findImmidiateSuperClass(mung.getClass());
+    //System.out.println(outContent.toString());
+    //assertEquals(Object.class.getSuperclass().getName() + "\n", outContent.toString());
+
+    //int
+
+    //string
+
+  }
+
+  @Test
+  public void testFindInterfaces(){
+    //interface exists
+    //ClassA extends serializable and runnable
+    gadget.findInterfaces(new ClassA().getClass());
+    assertEquals("Interface: java.io.Serializable\nInterface: java.lang.Runnable\n", outContent.toString());
+    outContent.reset();
+    //no interface
+    //ClassD implements no interfaces
+    gadget.findInterfaces(new ClassD().getClass());
+    assertEquals("", outContent.toString());
+    outContent.reset();
+
+
   }
 
 }
