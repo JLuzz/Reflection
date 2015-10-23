@@ -23,18 +23,23 @@ public class Inspector{
     Class objClass = object.getClass();
 
     //find the declaring class
+    System.out.println("***Declaring Class***");
     findClassName(objClass);
 
     //find the immediate superclass
+    System.out.println("***Immediate superclass***");
     findImmidiateSuperClass(objClass);
 
     //find interfaces implemented by this class object
+    System.out.println("***Interfaces***");
     findInterfaces(objClass);
 
     //find methods implemented by this class object
+    System.out.println("***Methods***");
     findMethods(objClass);
 
     //find constructors for the class object
+    System.out.println("***Constructors***");
     findContructors(objClass);
 
     //find the fields for the class object
@@ -50,33 +55,25 @@ public class Inspector{
   //return the Class name as a string
   public void findClassName(Class objClass){
     //print the declaring class name
-    System.out.println("Declaring Class: " + objClass.getName());
+    System.out.println(objClass.getName());
   }
 
   //
   public void findImmidiateSuperClass(Class objClass){
     Class objSuperclass = objClass.getSuperclass();
-    if (objSuperclass == null){
-      System.out.println("Immediate superclass: Primitive Type, Object, or Interface");
-    }else if (objSuperclass == Object.class){
-      System.out.println("Immediate superclass: Array");
-    }else{
-      System.out.println("Immediate superclass: " + objSuperclass.getName());
-    }
+    System.out.println(objSuperclass.getName());
   }
 
   public void findInterfaces(Class objClass){
 
     Class[] interfaces = objClass.getInterfaces();
-    System.out.println("***Interfaces***");
     for (Class interf : interfaces){
-      System.out.println("\t Interface: " + interf.getName());
+      System.out.println("Interface: " + interf.getName());
     }
   }
 
   public void findMethods(Class objClass){
     Method[] methods = objClass.getDeclaredMethods();
-    System.out.println("***Methods***");
     for (Method meth : methods){
       System.out.println("Method: " + meth.getName());
       findMethodExceptions(meth);
@@ -115,7 +112,6 @@ public class Inspector{
 
   public void findContructors(Class objClass){
     Constructor[] constructors = objClass.getDeclaredConstructors();
-    System.out.println("***Constructors***");
     for (Constructor construct : constructors){
       System.out.println("Constructor: " + construct.getName());
       findConstructorParameters(construct);
@@ -166,7 +162,7 @@ public class Inspector{
   public void findFieldClasses(Object obj, Class objClass, Vector fieldsToInspect, boolean recursive){
 
     if(fieldsToInspect.size() > 0 )
-  	    System.out.println("***Field Classes(Recursive Inspection)***");
+  	    System.out.println("<<<<<<Field Classes(Recursive Inspection)>>>>>>");
 
   	Enumeration e = fieldsToInspect.elements();
   	while(e.hasMoreElements())
@@ -176,9 +172,9 @@ public class Inspector{
 
   		try
   		    {
-  			System.out.println("******************");
+  			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
   			inspect( fld.get(obj) , recursive);
-  			System.out.println("******************");
+  			System.out.println("xxxxxxxxxxxxxxxxxxxxxxxx");
   		    }
   		catch(Exception exp) { exp.printStackTrace();
       System.out.println("tacos");}
