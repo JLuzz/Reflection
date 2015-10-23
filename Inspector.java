@@ -26,7 +26,7 @@ public class Inspector{
     findContructors(objClass);
 
     //find the fields for the class object
-    findFields(objClass);
+    findFields(object, objClass);
   }
 
   //return the Class name as a string
@@ -50,17 +50,17 @@ public class Inspector{
   public void findInterfaces(Class objClass){
 
     Class[] interfaces = objClass.getInterfaces();
-    System.out.println("Interfaces:");
+    System.out.println("***Interfaces***");
     for (Class interf : interfaces){
-      System.out.println("\t" + interf.getName());
+      System.out.println("\t Interface: " + interf.getName());
     }
   }
 
   public void findMethods(Class objClass){
     Method[] methods = objClass.getDeclaredMethods();
-    System.out.println("Methods:");
+    System.out.println("***Methods***");
     for (Method meth : methods){
-      System.out.println("\t" + meth.getName());
+      System.out.println("Method: " + meth.getName());
       findMethodExceptions(meth);
       findMethodParameters(meth);
       findReturnType(meth);
@@ -70,37 +70,36 @@ public class Inspector{
 
   public void findMethodExceptions(Method meth){
     Class[] exceptions = meth.getExceptionTypes();
-    System.out.println("\t\tExceptions:");
+    System.out.println("\t***Exceptions***");
     for (Class excep : exceptions){
-      System.out.println("\t\t\t" + excep.getName());
+      System.out.println("\tException:" + excep.getName());
     }
   }
 
   public void findMethodParameters(Method meth){
     Class[] params = meth.getParameterTypes();
-    System.out.println("\t\tParameters:");
+    System.out.println("\t***Parameters***");
     for (Class param : params){
-      System.out.println("\t\t\t" + param.getName());
+      System.out.println("\tParameters:" + param.getName());
     }
   }
 
   public void findReturnType(Method meth){
     Class returnType = meth.getReturnType();
-    System.out.println("\t\tReturn Type:");
-    System.out.println("\t\t\t" + returnType.getName());
+    System.out.println("\t***Return Type***\n\tReturn: " + returnType.getName());
   }
 
   public void findMethodModifiers(Method meth){
       int modCode = meth.getModifiers();
-      System.out.println("\t\tModifier:");
-      System.out.println("\t\t\t" + Modifier.toString(modCode));
+      System.out.println("\t***Modifier***");
+      System.out.println("\tModifier: " + Modifier.toString(modCode));
   }
 
   public void findContructors(Class objClass){
     Constructor[] constructors = objClass.getDeclaredConstructors();
-    System.out.println("Constructors:");
+    System.out.println("***Constructors***");
     for (Constructor construct : constructors){
-      System.out.println("\t" + construct.getName());
+      System.out.println("Constructor: " + construct.getName());
       findConstructorParameters(construct);
       findConstructorModifiers(construct);
     }
@@ -108,24 +107,36 @@ public class Inspector{
 
   public void findConstructorParameters(Constructor construct){
     Class[] params = construct.getParameterTypes();
-    System.out.println("\t\tParameters:");
+    System.out.println("\t***Parameters***");
     for (Class param : params){
-      System.out.println("\t\t\t" + param.getName());
+      System.out.println("\tParameter: " + param.getName());
     }
   }
 
   public void findConstructorModifiers(Constructor construct){
     int modCode = construct.getModifiers();
-    System.out.println("\t\tModifiers:");
-    System.out.println("\t\t\t" + Modifier.toString(modCode));
+    System.out.println("\t***Modifiers***");
+    System.out.println("\tModifier: " + Modifier.toString(modCode));
   }
 
-  public void findFields(Class objClass){
+  public void findFields(Object obj, Class objClass){
     Field[] fields = objClass.getDeclaredFields();
     System.out.println("***Fields***");
+
     for (Field fld : fields){
-      System.out.println("Field: " + fld.getName() + "\n\t Type: " + fld.getType()
-        + "\n\t Modifiers: " + Modifier.toString(fld.getModifiers()));
+      Object value = null;
+
+      if(!fld.isAccessible())
+        fld.setAccessible(true);
+
+      try{
+        value = fld.get(obj);
+      }catch(Exception e){}
+        
+      System.out.println("Field: " + fld.getName()
+        + "\n\t Type: " + fld.getType()
+        + "\n\t Modifiers: " + Modifier.toString(fld.getModifiers())
+        + "\n\t Value: " + value);
     }
   }
 
