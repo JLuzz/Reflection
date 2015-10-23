@@ -25,7 +25,7 @@ public class TestInspector{
     //objects
     Object mung = new Object();
     gadget.findClassName(mung.getClass());
-    assertEquals("Declaring Class: " + Object.class.getName(), outContent.toString());
+    assertEquals("Declaring Class: " + Object.class.getName() + "\n", outContent.toString());
 
     //string
     //assertEquals(String.class.getName(), gadget.findClassName("hey QT how you doin?".getClass()));

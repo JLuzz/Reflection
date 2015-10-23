@@ -19,6 +19,9 @@ public class Inspector{
     //find interfaces implemented by this class object
     findInterfaces(objClass);
 
+    //find methods implemented by this class object
+    findMethods(objClass);
+
   }
 
   //return the Class name as a string
@@ -42,11 +45,50 @@ public class Inspector{
   public void findInterfaces(Class objClass){
 
     Class[] interfaces = objClass.getInterfaces();
-    System.out.println("Interfaces: ");
-
+    System.out.println("Interfaces:");
     for (Class interf : interfaces){
-      System.out.println(interf.getName()+", ");
+      System.out.println("\t" + interf.getName());
     }
+  }
+
+  public void findMethods(Class objClass){
+    Method[] methods = objClass.getDeclaredMethods();
+    System.out.println("Methods:");
+    for (Method meth : methods){
+      System.out.println("\t" + meth.getName());
+      findMethodExceptions(meth);
+      findMethodParameters(meth);
+      findReturnType(meth);
+      findMethodModifiers(meth);
+    }
+  }
+
+  public void findMethodExceptions(Method meth){
+    Class[] exceptions = meth.getExceptionTypes();
+    System.out.println("\t\tExceptions:");
+    for (Class excep : exceptions){
+      System.out.println("\t\t\t" + excep.getName());
+    }
+  }
+
+  public void findMethodParameters(Method meth){
+    Class[] params = meth.getParameterTypes();
+    System.out.println("\t\tParameters:");
+    for (Class param : params){
+      System.out.println("\t\t\t" + param.getName());
+    }
+  }
+
+  public void findReturnType(Method meth){
+    Class returnType = meth.getReturnType();
+    System.out.println("\t\tReturn Type:");
+    System.out.println("\t\t\t" + returnType.getName());
+  }
+
+  public void findMethodModifiers(Method meth){
+      int modCode = meth.getModifiers();
+      System.out.println("\t\tModifier:");
+      System.out.println("\t\t\t" + Modifier.toString(modCode));
   }
 
 }
